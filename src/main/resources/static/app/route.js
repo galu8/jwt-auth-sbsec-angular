@@ -47,8 +47,7 @@ angular.module('JWTAuthApp').config(function($stateProvider, $urlRouterProvider)
 		url : '/page-not-found',
 		views : {
 			'content@' : {
-				templateUrl : 'app/views/page-not-found.html',
-				controller : 'PageNotFoundController'
+				templateUrl : 'app/views/page-not-found.html'
 			}
 		}
 	}).state('access-denied', {
@@ -56,8 +55,7 @@ angular.module('JWTAuthApp').config(function($stateProvider, $urlRouterProvider)
 		url : '/access-denied',
 		views : {
 			'content@' : {
-				templateUrl : 'app/views/access-denied.html',
-				controller : 'AccessDeniedController'
+				templateUrl : 'app/views/access-denied.html'
 			}
 		}
 	}).state('register', {

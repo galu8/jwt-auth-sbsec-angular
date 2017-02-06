@@ -5,8 +5,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spsproject.domain.CustomUser;
+import com.spsproject.domain.Role;
 import com.spsproject.repository.CustomUserRepository;
+import com.spsproject.repository.RoleRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,6 +37,9 @@ public class HomeController {
 
 	@Autowired
 	private CustomUserRepository customUserRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	// TODO create a service where do the operations in these methods
 
@@ -42,8 +49,10 @@ public class HomeController {
 		if (customUserRepository.findOneByUsername(customUser.getUsername()) != null) {
 			throw new RuntimeException("Username already exist");
 		}
-		List<String> roles = new ArrayList<>();
-		roles.add("USER");
+		
+		Role rol = roleRepository.findByName("USER");
+		List<Role> roles = new ArrayList<>();
+		roles.add(rol);
 		customUser.setRoles(roles);
 		return new ResponseEntity<CustomUser>(customUserRepository.save(customUser), HttpStatus.CREATED);
 	}

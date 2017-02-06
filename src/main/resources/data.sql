@@ -1,6 +1,9 @@
-insert into custom_user(user_id,name,username,password) values (1,'John Doe','admin','admin');
-insert into custom_user(user_id,name,username,password) values (2,'Liza Elizabeth','user','user');
+insert into c_user(name,username,password) values ('Samuel Paredes','admin','admin');
+insert into c_user(name,username,password) values ('Jimmy Hendrix','user','user');
 
-insert into custom_user_roles(custom_user_userId,roles) values (1,'ADMIN');
-insert into custom_user_roles(custom_user_userId,roles) values (1,'USER');
-insert into custom_user_roles(custom_user_userId,roles) values (2,'USER');
+insert into role(name) values ('ADMIN');
+insert into role(name) values ('USER');
+
+insert into c_user_roles(user_id,role_id) values (1,1);
+insert into c_user_roles(user_id,role_id) values (1,2);
+insert into c_user_roles(user_id,role_id) values (2,2);

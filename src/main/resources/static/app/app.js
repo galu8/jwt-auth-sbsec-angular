@@ -23,7 +23,7 @@ angular.module('JWTAuthApp', [ 'ui.router' ])
 				var hasAccess = false;
 				for (var i = 0; i < AuthService.user.roles.length; i++) {
 					var role = AuthService.user.roles[i];
-					if (toState.data.role == role) {
+					if (toState.data.role == role.name) {
 						hasAccess = true;
 						break;
 					}

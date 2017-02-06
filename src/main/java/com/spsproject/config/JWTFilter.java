@@ -2,6 +2,7 @@ package com.spsproject.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -17,6 +18,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.GenericFilterBean;
+
+import com.spsproject.domain.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -67,10 +70,12 @@ public class JWTFilter extends GenericFilterBean{
 	public Authentication getAuthentication(Claims claims) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 		
-		List<String> roles = (List<String>) claims.get(AUTHORITIES_KEY);
+		List<LinkedHashMap<String,?>> roles = (List<LinkedHashMap<String,?>>) claims.get(AUTHORITIES_KEY);
 		
-		for (String role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role));
+		for (LinkedHashMap<String,?> role : roles) {
+			
+			authorities.add(new SimpleGrantedAuthority((String) role.get("name")));	
+			
 		}
 		
 		User principal = new User(claims.getSubject(), "", authorities);
