@@ -1,7 +1,15 @@
 angular.module('JWTAuthApp')
-// Creating the Angular Service for storing logged user details
-.service('AuthService', function() {
+.factory('AuthService',function($http){
 	return {
-		user : null
+		loginUser: function(user){
+			return $http({
+				method: 'post',
+				url: 'http://localhost:8080/authenticate',
+				params: {
+					username:user.username,
+					password:user.password
+				}
+			});
+		}
 	}
 });

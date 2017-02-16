@@ -1,5 +1,5 @@
 angular.module('JWTAuthApp')
-.controller('RegisterController', function($http, $scope, AuthService) {
+.controller('RegisterController', function($http, $scope) {
 	
 	$scope.submit = function() {
 		$http.post('register', $scope.appUser)

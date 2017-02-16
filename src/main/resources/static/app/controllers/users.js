@@ -1,5 +1,5 @@
 angular.module('JWTAuthApp')
-.controller('UsersController', function($http, $scope, AuthService) {
+.controller('UsersController', function($http, $scope,UserFactory) {
 	
 	var edit = false;
 	$scope.buttonText = 'Create';
@@ -10,7 +10,7 @@ angular.module('JWTAuthApp')
 			
 			$scope.userForm.$setPristine();
 			$scope.message='';
-			$scope.appUser = null;
+			$scope.userData = null;
 			$scope.buttonText = 'Create';
 			
 		}).error(function(error) {
@@ -18,53 +18,58 @@ angular.module('JWTAuthApp')
 		});
 	};
 	
-	$scope.initEdit = function(appUser) {
+	$scope.initEdit = function(userData) {
 		edit = true;
-		$scope.appUser = appUser;
+		$scope.userData = userData;
 		$scope.message='';
 		$scope.buttonText = 'Update';
 	};
 	
 	$scope.initAddUser = function() {
 		edit = false;
-		$scope.appUser = null;
+		$scope.userData = null;
 		$scope.userForm.$setPristine();
 		$scope.message='';
 		$scope.buttonText = 'Create';
 	};
 	
-	$scope.deleteUser = function(appUser) {
-		$http.delete('api/users/'+appUser.id).success(function(res) {
+	$scope.deleteUser = function(userData) {
+		UserFactory.deleteUser(userData.userId)
+		.then(function successCallback(response) {
 			$scope.deleteMessage ="Success!";
 			init();
-		}).error(function(error) {
-			$scope.deleteMessage = error.message;
-		});
+	  	}, function errorCallback(error){
+	  		$scope.deleteMessage = error.message;
+	    });
 	};
 	
 	var editUser = function(){
-		$http.put('api/users', $scope.appUser).success(function(res) {
-			$scope.appUser = null;
+		UserFactory.editUser($scope.userData)
+		.then(function successCallback(response) {
+			$scope.userData = null;
 			$scope.confirmPassword = null;
 			$scope.userForm.$setPristine();
-			$scope.message = "Editting Success";
+			$scope.message = "User Updated!";
 			init();
-		}).error(function(error) {
-			$scope.message =error.message;
-		});
-	};
+	  	}, function errorCallback(error){
+	    	$scope.message = error.message;
+	    });
+	}
+
 	
 	var addUser = function(){
-		$http.post('api/users', $scope.appUser).success(function(res) {
-			$scope.appUser = null;
+		UserFactory.addUser($scope.userData)
+		.then(function successCallback(response) {
+			$scope.userData = null;
 			$scope.confirmPassword = null;
 			$scope.userForm.$setPristine();
 			$scope.message = "User Created";
 			init();
-		}).error(function(error) {
-			$scope.message = error.message;
-		});
-	};
+	  	}, function errorCallback(error){
+	    	$scope.message = error.message;
+	    });
+		
+	}
 	
 	$scope.submit = function() {
 		if(edit){

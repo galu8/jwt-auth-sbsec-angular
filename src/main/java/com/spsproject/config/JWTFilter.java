@@ -70,9 +70,9 @@ public class JWTFilter extends GenericFilterBean{
 	public Authentication getAuthentication(Claims claims) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 		
-		List<LinkedHashMap<String,?>> roles = (List<LinkedHashMap<String,?>>) claims.get(AUTHORITIES_KEY);
-		
-		for (LinkedHashMap<String,?> role : roles) {
+		List<LinkedHashMap<String,Object>> roles = (List<LinkedHashMap<String,Object>>) claims.get(AUTHORITIES_KEY);
+
+		for (LinkedHashMap<String,Object> role : roles) {
 			
 			authorities.add(new SimpleGrantedAuthority((String) role.get("name")));	
 			

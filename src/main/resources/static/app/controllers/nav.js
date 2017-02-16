@@ -1,13 +1,21 @@
 angular.module('JWTAuthApp')
-.controller('NavController', function($http, $scope, AuthService, $state, $rootScope) {
+.controller('NavController', function($http, $scope,$rootScope,UserService, $state, $rootScope) {
+	
+	//$scope.user = UserService.getUser();
+	$scope.user = $rootScope.user;
+	
 	$scope.$on('LoginSuccessful', function() {
-		$scope.user = AuthService.user;
+		$scope.user = UserService.getUser();
+		//$scope.user = $rootScope.user;
 	});
+	
 	$scope.$on('LogoutSuccessful', function() {
+
 		$scope.user = null;
 	});
+	
 	$scope.logout = function() {
-		AuthService.user = null;
+		UserService.clearUser();
 		$rootScope.$broadcast('LogoutSuccessful');
 		$state.go('login');
 	};
